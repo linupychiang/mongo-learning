@@ -4,4 +4,5 @@ site_author: linupy
 nav:
     - Instroduce: introduce.md
     - Install: install.md
+    -  Basic: basic.md
 theme: material
