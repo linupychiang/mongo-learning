@@ -12,4 +12,5 @@
 （暂略）
 
 ### 云安装
+
 [https://cloud.mongodb.com/](https://cloud.mongodb.com/)

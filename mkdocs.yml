@@ -2,7 +2,8 @@ site_name: MongoLearning
 site_description: Mongo 学习
 site_author: linupy
 nav:
-    - Instroduce: introduce.md
-    - Install: install.md
-    -  Basic: basic.md
-theme: material
+  - Instroduce: introduce.md
+  - Install: install.md
+  - Basic: basic.md
+theme:
+  name: material
