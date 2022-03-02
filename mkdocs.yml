@@ -6,4 +6,4 @@ nav:
   - Install: install.md
   - Basic: basic.md
 theme:
-  name: material
+  name: readthedocs 
