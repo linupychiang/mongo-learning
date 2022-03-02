@@ -6,71 +6,67 @@
 
 #### insertOne
 
-```shell
-db.fruit.inserOne({name: "apple"})
+```javascript
+db.fruit.inserOne({ name: "apple" });
 ```
 
 #### insertMany
 
-```shell
-db.fruit.inserMany(
-    {name: "apple"},
-    {name: "pear"},
-    {name: "orange"},
-)
+```javascript
+db.fruit.inserMany({ name: "apple" }, { name: "pear" }, { name: "orange" });
 ```
 
 ### find 查询文档
 
-1. `find` 是MongoDB中查询数据的基本指令，相当于SQL中的 `select`
+1. `find` 是 MongoDB 中查询数据的基本指令，相当于 SQL 中的 `select`
 2. `find` 返回的是游标
 
 > 示例
 
 #### 单条件
 
-```shell
-db.movie.find({"year":1975})
+```javascript
+db.movie.find({ year: 1975 });
 ```
 
-#### 多条件and
+#### 多条件 and
 
-```shell
-db.movie.find({"year":1975,"title":"batman"})
+```javascript
+db.movie.find({ year: 1975, title: "batman" });
 ```
 
-#### 另一种and
+#### 另一种 and
 
-```shell
-db.movie.find({$and:[{"year":1975,"title":"batman"}]})
+```javascript
+db.movie.find({ $and: [{ year: 1975, title: "batman" }] });
 ```
 
-#### 多条件or
+#### 多条件 or
 
-```shell
+```javascript
 db.movie.find({$or:[{"year":1975,"title":"batman"}]}})
 ```
 
 #### 正则查询
 
-```shell
-db.movie.find({"title":/^B/})  // B开头
+```javascript
+db.movie.find({ title: /^B/ }); // B开头
 ```
 
 > 查询条件对照表
 
-|SQL|MQL|解释|
-|--|--|--|
-|a = 1|{a:1}||
-|a <> 1|{a:{$ne:1}}|not equal|
-|a > 1|{a:{$gt:1}}|greater than|
-|a >= 1|{a:{$gte:1}}|greater than or equal to|
-|a < 1|{a:{$lt:1}}|less than|
-|a <= 1|{a:{$lte:1}}|less than or equal to|
-|a = 1 AND b = 1|{a:1,b:1} 或 {$and:[{a:1,b:1}]}||
-|a = 1 OR b = 1|{$or:[{a:1,b:1}]}||
-|a is NULL|{a:{$exists:false}}||
-|a IN (1,2,3)|{a:{$in:[1,2,3]}}||
+| SQL             | MQL                             | 解释                     |
+| --------------- | ------------------------------- | ------------------------ |
+| a = 1           | {a:1}                           |                          |
+| a <> 1          | {a:{$ne:1}}                     | not equal                |
+| a > 1           | {a:{$gt:1}}                     | greater than             |
+| a >= 1          | {a:{$gte:1}}                    | greater than or equal to |
+| a < 1           | {a:{$lt:1}}                     | less than                |
+| a <= 1          | {a:{$lte:1}}                    | less than or equal to    |
+| a = 1 AND b = 1 | {a:1,b:1} 或 {$and:[{a:1,b:1}]} |                          |
+| a = 1 OR b = 1  | {$or:[{a:1,b:1}]}               |                          |
+| a is NULL       | {a:{$exists:false}}             |                          |
+| a IN (1,2,3)    | {a:{$in:[1,2,3]}}               |                          |
 
 > 查询逻辑运算符
 
@@ -88,51 +84,126 @@ db.movie.find({"title":/^B/})  // B开头
 
 支持使用 `field.sub_field` 形式查询子文档，假设文档
 
-```shell
+```javascript
 db.fruit.insertOne({
-    name:"apple",
-    from:{
-        country:"China",
-        province:"GuangDong"
-    }
-})
+  name: "apple",
+  from: {
+    country: "China",
+    province: "GuangDong",
+  },
+});
 ```
 
 两种查询方式，第一种为查询子文档, 能够正常查到数据
 
-```shell
-db.fruit.find({"from.county":"China"})
+```javascript
+db.fruit.find({ "from.county": "China" });
 ```
 
 第二种为，查询 `from` 字段为 `{"country":"China"}`, 所以查不到数据
 
-```shell
-db.fruit.find({"from":{"country":"China"}})
+```javascript
+db.fruit.find({ from: { country: "China" } });
 ```
 
 ### find 搜索数组
 
 find 支持对数组中元素进行搜索，假设文档
 
-```shell
+```javascript
 db.fruit.insert([
-    {name:"Apple", color:["red","green"]},
-    {name:"Mango", color:["yellow","green"]},
-])
+  { name: "Apple", color: ["red", "green"] },
+  { name: "Mango", color: ["yellow", "green"] },
+]);
 ```
 
-两种查询方式，第一种查询，`color` 为 `red`，返回1条数据
+两种查询方式，第一种查询，`color` 为 `red`，返回 1 条数据
 
-```shell
-db.fruit.find({color:"red"})
+```javascript
+db.fruit.find({ color: "red" });
 ```
 
-第二种查询，查询 `color` 为 `red` 或 `yellow`，返回2条数据
+第二种查询，查询 `color` 为 `red` 或 `yellow`，返回 2 条数据
 
-```shell
-db.fruit.find({$or:[{color:"red"},{color:"yellow"}]})
+```javascript
+db.fruit.find({ $or: [{ color: "red" }, { color: "yellow" }] });
 ```
 
 ### find 搜索数组中的对象
 
-#### $eleMatch
+可以搜索数组中的对象，假设文档
+
+```javascript
+db.movies.insertOne({
+  title: "Raiders of the Lost Ark",
+  filming_locations: [
+    { city: "Los Angeles", state: "CA", contry: "USA" },
+    { city: "Rome", state: "Lazio", contry: "Italy" },
+    { city: "Florence", state: "SC", contry: "USA" },
+  ],
+});
+```
+
+查找城市是 `Rome` 的记录
+
+```javascript
+db.movies.find({ "filming_locations.city": "Rome" });
+```
+
+#### $elemMatch
+
+> 当在数组中搜索子对象的多个字段，可以使用 `$elemMatch`。表示必须是同一个子对象满足多个条件
+
+比如，要查询 `city` 是 `Rome` ，并且 `contry` 是 `USA` 时
+
+```javascript
+db.movies.find({
+  "filming_locations.city": "Rome",
+  "filming_locations.contry": "USA",
+});
+```
+
+```javascript
+db.movies.find({
+  filming_locations: {
+    $elemMatch: {
+      city: "Rome",
+      contry: "USA",
+    },
+  },
+});
+```
+
+### 控制 find 返回的字段
+
+当 find 返回内容较大或不需要返回全部字段时，**可以指定只返回指定的字段**
+
+- `_id` 字段默认返回，如不需要返回，需要明确指明不返回
+- 在 MongoDB 中称为投影（projection）
+
+假设只需要返回 `title` 字段且不返回 `_id`
+
+```javascript
+db.movies.find({ category: "action" }, { _id: 0, title: 1 });
+```
+
+### remove 删除文档
+
+- remove 命令需要配合查询条件使用
+- 匹配查询条件的文档会被删除
+- **指定一个空文档会删除所有文档**
+
+示例命令：
+
+```javascript
+// 删除a=1的记录
+db.test.remove({ a: 1 });
+// 删除a<1的记录
+db.test.remove({ a: { $lt: 5 } });
+// 删除所有记录
+db.test.remove({});
+// 报错
+db.test.remove;
+```
+
+### update 更新文档
