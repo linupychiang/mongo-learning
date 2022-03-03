@@ -1,9 +1,14 @@
 site_name: MongoLearning
 site_description: Mongo 学习
-site_author: linupy
+repo_url: https://github.com/linupychiang/mongo-learning/
+copyright: '2022, Linupy'
+
 nav:
   - Instroduce: introduce.md
   - Install: install.md
   - Basic: basic.md
+
 theme:
-  name: readthedocs 
+  name: material
+  favicon: 'images/icon.png'
+  logo: 'images/logo.png'
