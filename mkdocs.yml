@@ -9,6 +9,6 @@ nav:
   - Basic: basic.md
 
 theme:
-  name: material
+  name: readthedocs
   favicon: 'images/icon.png'
   logo: 'images/logo.png'
