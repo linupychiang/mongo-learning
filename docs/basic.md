@@ -7,13 +7,13 @@
 #### insertOne
 
 ```javascript
-db.fruit.inserOne({ name: "apple" });
+db.fruit.insertOne({ name: "apple" });
 ```
 
 #### insertMany
 
 ```javascript
-db.fruit.inserMany({ name: "apple" }, { name: "pear" }, { name: "orange" });
+db.fruit.insertMany({ name: "apple" }, { name: "pear" }, { name: "orange" });
 ```
 
 ### find 查询文档
