@@ -207,3 +207,33 @@ db.test.remove;
 ```
 
 ### update 更新文档
+
+update 需要满足以下条件：
+
+- updateOne 无论匹配多少条记录，始终只更新一条
+- updateMany 匹配多少条，就更新多少条
+- updateOne/updateMany 要求更新条件部分必须具有以下操作符之一，否则报错
+    - $set/$unset
+    - $push/$pushAll/$pop
+    - $pull/$pullAll
+    - $addToSet
+
+如下语句，将会报错
+
+```javascript
+db.fruit.updateOne({name:"apple"},{from:"China"})
+```
+#### 操作符解释
+
+| 操作符    | 解释                                     |
+| --------- | ---------------------------------------- |
+| $push     | 增加一个对象到数组底部                   |
+| $pushAll  | 增加多个对象到数组底部                   |
+| $pop      | 从数组底部删除一个对象                   |
+| $pull     | 如果匹配指定的值，从数组中删除相应的对象 |
+| $pullAll  | 如果匹配任意的值，从数据中删除相应的对象 |
+| $addToSet | 如果不存在，则增加一个值到数组           |
+
+### drop 删除集合
+- 使用 `db.dropDatabase()` 来删除数据库
+- 数据库相应文件也会被删除，磁盘空间将被释放
