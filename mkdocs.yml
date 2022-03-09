@@ -7,6 +7,7 @@ nav:
   - Instroduce: introduce.md
   - Install: install.md
   - Basic: basic.md
+  - HelloMongo: hello-mongodb.md
 
 theme:
   name: readthedocs

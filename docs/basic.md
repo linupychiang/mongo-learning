@@ -237,3 +237,8 @@ db.fruit.updateOne({name:"apple"},{from:"China"})
 ### drop 删除集合
 - 使用 `db.dropDatabase()` 来删除数据库
 - 数据库相应文件也会被删除，磁盘空间将被释放
+
+```javascript
+db.dropDatabase()
+// {"dropped":"test","ok":1}
+```
