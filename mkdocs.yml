@@ -8,6 +8,7 @@ nav:
   - Install: install.md
   - Basic: basic.md
   - HelloMongo: hello-mongodb.md
+  - Aggregation: aggregation.md
 
 theme:
   name: readthedocs
