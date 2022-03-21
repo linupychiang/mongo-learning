@@ -90,7 +90,9 @@ db.<COLLECTION>.aggregate(
 
 #### MQL 与 SQL 对比
 
-```SQL
+> 对比 1:
+
+```sql
 SELECT
   FIRST_NAME AS '名',
   LAST_NAME AS '姓',
@@ -107,9 +109,109 @@ db.users.aggregate([
   { $limit: 20 },
   {
     $project: {
-       名: "$first_name",
+      名: "$first_name",
       姓: "$last_name",
     },
   },
 ]);
 ```
+
+> 对比 2
+
+```sql
+SELECT DEPARTMENT
+  COUNT(NULL) AS EMP_QTY
+FROM USERS
+WHERE GENDER = '女'
+GROUP BY DEPARTMENT HAVING
+COUNT(*) < 10
+```
+
+```javascript
+db.users.aggregate([
+  { $match: { gender: "女" } },
+  {
+    $group: {
+      _id: "$DEPARTMENT",
+      emp_qty: { $sum: 1 },
+    },
+  },
+  { $match: { emp_qty: { $lt: 10 } } },
+]);
+```
+
+> MQL 特有步骤 $unwind
+
+```javascript
+db.students.findOne();
+```
+
+结果
+
+```json
+{
+  "name": "张三",
+  "score": [
+    { "subject": "语文", "score": 84 },
+    { "subject": "数学", "score": 90 },
+    { "subject": "外语", "score": 69 }
+  ]
+}
+```
+
+> unwind
+
+```javascript
+db.students.aggregate([{ $unwind: "$score" }]);
+```
+
+结果
+
+```json
+{ "name": "张三", "score": { "subject": "语文", "score": 84 }}
+{ "name": "张三", "score": { "subject": "数学", "score": 90 }}
+{ "name": "张三", "score": { "subject": "外语", "score": 69 }}
+```
+
+> MQL 特有步骤 $bucket
+
+<table>
+    <tr>
+        <td rowspan="5">price</td>
+        <td >0-10</td></td>
+        <td >120条</td>
+    </tr>
+    <tr>
+       <td >10-20</td>
+        <td >20条</td>
+    </tr>
+    <tr>
+       <td >20-30</td>
+        <td >30条</td>
+    </tr>
+    <tr>
+       <td >30-40</td>
+        <td >5000条</td>
+    </tr>
+    <tr>
+       <td >40-</td>
+        <td >10条</td>
+    </tr>
+</table>
+
+使用 MQL
+
+```javascript
+db.products.aggregate([
+  {
+    $bucket: {
+      groupBy: "$price",
+      boundaries: [0, 10, 20, 30, 40],
+      default: "other",
+      output: { count: { $sum: 1 } }
+    }
+  }
+]);
+```
+
+> MQL 特有步骤 $facet
