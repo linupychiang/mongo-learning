@@ -9,6 +9,7 @@ nav:
   - Basic: basic.md
   - HelloMongo: hello-mongodb.md
   - Aggregation: aggregation.md
+  - HelloAggregation: hello-aggregation.md
 
 theme:
   name: readthedocs
