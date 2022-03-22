@@ -178,24 +178,24 @@ db.students.aggregate([{ $unwind: "$score" }]);
 <table>
     <tr>
         <td rowspan="5">price</td>
-        <td >0-10</td></td>
-        <td >120条</td>
+        <td>0-10</td></td>
+        <td>120条</td>
     </tr>
     <tr>
-       <td >10-20</td>
-        <td >20条</td>
+        <td>10-20</td>
+        <td>20条</td>
     </tr>
     <tr>
-       <td >20-30</td>
-        <td >30条</td>
+        <td>20-30</td>
+        <td>30条</td>
     </tr>
     <tr>
-       <td >30-40</td>
-        <td >5000条</td>
+        <td>30-40</td>
+        <td>5000条</td>
     </tr>
     <tr>
-       <td >40-</td>
-        <td >10条</td>
+        <td>40-</td>
+        <td>10条</td>
     </tr>
 </table>
 
@@ -208,10 +208,57 @@ db.products.aggregate([
       groupBy: "$price",
       boundaries: [0, 10, 20, 30, 40],
       default: "other",
-      output: { count: { $sum: 1 } }
-    }
-  }
+      output: { count: { $sum: 1 } },
+    },
+  },
 ]);
 ```
 
 > MQL 特有步骤 $facet
+
+<table>
+    <tr>
+        <td rowspan="7">数据</td>
+    </tr>
+    <tr>
+        <td rowspan="3">price</td>
+        <td>0-10</td>
+        <td>20条</td>
+    </tr>
+    <tr>
+        <td>10-20</td>
+        <td>20条</td>
+    </tr>
+    <tr>
+        <td>other</td>
+        <td>30条</td>
+    </tr>
+    <tr>
+        <td rowspan="3">year</td>
+        <td>1890-1901</td>
+        <td>80条</td>
+    </tr>
+    <tr>
+        <td>1901-1920</td>
+        <td>30条</td>
+    </tr>
+    <tr>
+        <td>other</td>
+        <td>40条</td>
+    </tr>
+</table>
+
+使用 MQL
+
+```javascript
+db.prioducts.aggregate([{
+  $facet:{
+    price:{
+      $bucket:{...}
+    },
+    year:{
+      $bucket:{...}
+    }
+  }
+}])
+```
