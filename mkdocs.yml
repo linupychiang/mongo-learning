@@ -10,8 +10,10 @@ nav:
   - HelloMongo: hello-mongodb.md
   - Aggregation: aggregation.md
   - HelloAggregation: hello-aggregation.md
+  - Replica Set: replica-set.md
 
 theme:
   name: readthedocs
+  # name: material
   favicon: "images/icon.png"
   logo: "images/logo.png"
